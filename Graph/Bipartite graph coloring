@@ -1,0 +1,13 @@
+bool dfs(ll v,ll c){
+    vis[v]=true;
+    col[v]=c;
+    for(ll u:a[v]){
+        if(!vis[u]){
+            if(!dfs(u,c^1))
+                return false;
+        }
+        else if(col[u]==col[v])
+            return false;
+    }
+    return true;
+}

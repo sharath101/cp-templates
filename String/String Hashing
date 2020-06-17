@@ -1,0 +1,40 @@
+//Comparing strings in O(1) time
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define MOD 1000000007
+
+ll hashs[100005],pows[100005];
+
+int getHash(int l,int r){
+    return ((hashs[r+1]-(hashs[l]*pows[r-l+1])%MOD)+MOD)%MOD;
+}
+
+int main()
+{
+    int p=331;
+    pows[0]=1;
+    for(int i=1;i<100005;i++)
+        pows[i]=(pows[i-1]*p)%MOD;
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s;
+        cin>>s;
+        ll n=s.length();
+        for(int i=0;i<n;i++)
+            hashs[i+1]=(hashs[i]*p+s[i])%MOD;
+        int count=0;
+        for(int i=2;i<=n-2;i+=2){
+            ll l1=0,r1=i/2-1;     //T1
+            ll l2=r1+1,r2=i-1;    //T2
+            ll l3=i,r3=(i+n)/2-1; //T3
+            ll l4=r3+1,r4=n-1;    //T4
+            if(getHash(l1,r1)==getHash(l2,r2)&&getHash(l3,r3)==getHash(l4,r4))
+                count++;
+        }
+        cout<<count<<"\n";
+    }
+}

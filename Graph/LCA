@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define pb push_back
+#define mp make_pair
+#define deb(x) cout<< #x << " " << x << "\n";
+const ll mod=1e9+7;
+
+vector<ll> a[10000];
+ll lca[200000][31],lev[200000];
+
+void dfs(ll v,ll lv,ll p){
+    lca[v][0]=p;
+    lev[v]=lv;
+    for(ll i=1;i<=30;i++)
+        if(lca[v][i-1]!=-1)
+            lca[v][i]=lca[lca[v][i-1]][i-1];
+    for(ll u:a[v])
+        if(u!=p)
+            dfs(u,lv+1,v);
+}
+
+ll getlca(ll a,ll b){
+    if(lev[a]<lev[b]) swap(a,b);
+    for(ll i=30;i>=0;i--){
+        if(lca[a][i]==-1 || lev[lca[a][i]]<lev[b]) continue;
+        a=lca[a][i];
+    }
+    if(a==b) return a;
+    for(ll i=30;i>=0;i--)
+        if(lca[a][i]!=-1 && lca[a][i]!=lca[b][i])
+            a=lca[a][i],b=lca[b][i];
+    return lca[a][0];
+}
+
+
+int main() {
+    
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll t,c=1;
+    cin>>t;
+    while(t--){
+        cout<<"Case "<<c<<":\n";
+        c++;
+        ll n;
+        cin>>n;
+        for(ll i=0;i<n;i++){
+            a[i].clear();
+            ll m,k;
+            cin>>m;
+            for(ll j=0;j<m;j++){
+                cin>>k;k--;
+                a[i].pb(k);
+            }
+        }
+        memset(lca,-1,sizeof(lca));
+        dfs(0,0,-1);
+        ll q;
+        cin>>q;
+        while(q--){
+            ll u,v;
+            cin>>u>>v;u--,v--;
+            cout<<getlca(u,v)<<"\n";
+        }
+
+    }
+    
+
+    return 0;
+}
+
