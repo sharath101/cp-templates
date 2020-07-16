@@ -3,9 +3,21 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long
-#define MOD 1000000007
 
-ll hashs[100005],pows[100005];
+const ll N=2e5+5, MOD=1000000007;
+int p=331;
+ll hashs[N],pows[N];
+
+void init(){
+	pows[0]=1;
+    for(int i=1;i<N;i++)
+        pows[i]=(pows[i-1]*p)%MOD;
+}
+
+void prepstring(string s){
+	for(int i=0;i<s.size();i++)
+    	hashs[i+1]=(hashs[i]*p+s[i])%MOD;
+}
 
 int getHash(int l,int r){
     return ((hashs[r+1]-(hashs[l]*pows[r-l+1])%MOD)+MOD)%MOD;
@@ -13,10 +25,7 @@ int getHash(int l,int r){
 
 int main()
 {
-    int p=331;
-    pows[0]=1;
-    for(int i=1;i<100005;i++)
-        pows[i]=(pows[i-1]*p)%MOD;
+    init();
     int t;
     cin>>t;
     while(t--)
@@ -24,8 +33,7 @@ int main()
         string s;
         cin>>s;
         ll n=s.length();
-        for(int i=0;i<n;i++)
-            hashs[i+1]=(hashs[i]*p+s[i])%MOD;
+        prepstring(s);s
         int count=0;
         for(int i=2;i<=n-2;i+=2){
             ll l1=0,r1=i/2-1;     //T1

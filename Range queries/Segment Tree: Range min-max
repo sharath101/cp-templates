@@ -79,7 +79,7 @@ struct SegmentTree{
 
 int main(){
 	vector<ll> a;
-	SegmentTree st(a);
+	SegmentTree st(a);   //0 Indexed
 	dat r=st.query(1,5); //1 and 5 included
 	cout<<r.minm<<" "<<r.maxm<<"\n";
 	return 0;
