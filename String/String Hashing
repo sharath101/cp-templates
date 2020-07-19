@@ -33,7 +33,7 @@ int main()
         string s;
         cin>>s;
         ll n=s.length();
-        prepstring(s);s
+        prepstring(s);
         int count=0;
         for(int i=2;i<=n-2;i+=2){
             ll l1=0,r1=i/2-1;     //T1

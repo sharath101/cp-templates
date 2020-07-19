@@ -36,7 +36,7 @@ int main() {
         a.pb(mp(c,mp(u,v)));
     }
     sort(a.begin(),a.end());
-    for(ll i=1;i<=n;i++) par[i]=-1*i;
+    for(ll i=1;i<=n;i++) par[i]=-1*i;            //don't forget
     ll ans=0;
     for(ll i=0;i<a.size();i++){
         ll u=a[i].second.first,v=a[i].second.second;
