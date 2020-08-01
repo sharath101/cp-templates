@@ -7,7 +7,7 @@ using namespace std;
 #define INF 9223372036854775807
 #define PI 3.141592653589
 const int mod=998244353;
-
+                 /*   1 indexed   */
 const int N=2e5+1;
 vector<ll> a[N];
 vector<ll> order,pos(N); //Stores the Topological Order

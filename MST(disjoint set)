@@ -13,7 +13,7 @@ ll find(ll a){
         return a;
     return par[a]=find(par[a]);
 }
-ll unionn(ll a,ll b){
+void unionn(ll a,ll b){
 	if(find(a)==find(b)) return;
     if(par[find(a)]>par[find(b)])
         par[find(a)]=find(b);
