@@ -1,0 +1,121 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define pb push_back
+#define mp make_pair
+#define deb(x) cout<< #x << " " << x << "\n";
+#define MAX 9223372036854775807
+#define MIN -9223372036854775807
+#define PI 3.141592653589
+#define setbits(n) __builtin_popcountll(n)
+const int mod=1e9+7;
+
+struct state {
+    int len, link;
+    map<char, int> next;
+};
+
+const int MAXLEN = 100000;
+state st[MAXLEN * 2];
+int sz, last;
+
+void sa_init() {
+    for(int i=0;i<sz;i++)
+        st[i].next.clear();
+    st[0].len = 0;
+    st[0].link = -1;
+    sz=1;
+    last = 0;
+}
+
+void sa_extend(char c) {
+    int cur = sz++;
+    st[cur].len = st[last].len + 1;
+    int p = last;
+    while (p != -1 && !st[p].next.count(c)) {
+        st[p].next[c] = cur;
+        p = st[p].link;
+    }
+    if (p == -1) {
+        st[cur].link = 0;
+    } else {
+        int q = st[p].next[c];
+        if (st[p].len + 1 == st[q].len) {
+            st[cur].link = q;
+        } else {
+            int clone = sz++;
+            st[clone].len = st[p].len + 1;
+            st[clone].next = st[q].next;
+            st[clone].link = st[q].link;
+            while (p != -1 && st[p].next[c] == q) {
+                st[p].next[c] = clone;
+                p = st[p].link;
+            }
+            st[q].link = st[cur].link = clone;
+        }
+    }
+    last = cur;
+}
+
+/*-----------Distinct substrings--------*/
+vector<ll> dp;
+ll DistSub(ll u){
+    if(dp[u]!=-1)
+        return dp[u];
+    ll ans=0;
+    for(auto k: st[u].next)
+        ans+=1+DistSub(k.second);
+    return dp[u]=ans;
+}
+void CountDistinctSubstrings(){
+    dp.assign(sz,-1);
+    cout<<DistSub(0)<<"\n";
+}
+/*-----------Distinct substrings--------*/
+
+/*-----------Lexicographically Kth substring--------*/
+map<ll,string> lex;
+ll k=0;
+void lexk(ll u, string s){
+    lex[k++]=s;
+    for(auto p: st[u].next){
+        lexk(p.second,s+p.first);
+    }
+}
+void LexicographicallyKthSubstring(){
+    lex.clear();
+    lexk(0,"");
+    //for(ll i=1;i<k;i++) cout<<lex[i]<<"\n";
+}
+/*-----------Lexicographically Kth substring--------*/
+
+int main(){
+    
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    ll t=1;
+    //cin>>t;
+    while(t--){
+        string s;
+        cin>>s;
+        ll q; cin>>q;
+        sa_init();
+        for(ll i=0;i<s.size();i++)
+            sa_extend(s[i]);
+        //CountDistinctSubstrings();
+        LexicographicallyKthSubstring();
+        while(q--){
+            ll r;
+            cin>>r;
+            cout<<lex[r]<<"\n";
+        }
+    }
+
+
+
+    
+    return 0;
+}
+
