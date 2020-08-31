@@ -26,7 +26,7 @@ ll modInv(ll n){
     return mpow(n,mod-2); 
 } 
   
-ll C(ll n, ll r){ 
+ll C(ll n, ll r){
     if (r == 0) return 1; 
     assert(n>=r);
     return (f[n]*modInv(f[r])%mod*modInv(f[n-r])%mod)%mod; 
@@ -34,7 +34,7 @@ ll C(ll n, ll r){
 
 void fact(){
     f[0]=1;
-    for(int i=1;i<N;i++){
+    for(int i=1;i<=N;i++){
         f[i]=(f[i-1]*i)%mod; 
     }
 }
