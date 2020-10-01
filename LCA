@@ -9,7 +9,7 @@ const ll mod=1e9+7;
 vector<ll> a[10000];
 ll lca[200000][31],lev[200000];
 
-void dfs(ll v,ll lv,ll p){
+void dfs(ll v,ll lv,ll p=-1){
     lca[v][0]=p;
     lev[v]=lv;
     for(ll i=1;i<=30;i++)
@@ -57,7 +57,7 @@ int main() {
             }
         }
         memset(lca,-1,sizeof(lca));
-        dfs(0,0,-1);
+        dfs(0,0);
         ll q;
         cin>>q;
         while(q--){

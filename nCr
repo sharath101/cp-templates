@@ -8,8 +8,8 @@ using namespace std;
 #define PI 3.141592653589
 const ll mod=1e9+7;
 
-const int N=2e5+1;
-ll f[N];
+const int N=3e5+1;
+ll f[N], invf[N];
 
 ll mpow(ll x, ll y){ 
     ll res = 1;
@@ -29,13 +29,14 @@ ll modInv(ll n){
 ll C(ll n, ll r){
     if (r == 0) return 1; 
     assert(n>=r);
-    return (f[n]*modInv(f[r])%mod*modInv(f[n-r])%mod)%mod; 
+    return (f[n]*invf[r]%mod*invf[n-r]%mod)%mod; 
 } 
 
 void fact(){
     f[0]=1;
-    for(int i=1;i<=N;i++){
+    for(int i=1;i<N;i++){
         f[i]=(f[i-1]*i)%mod; 
+        invf[i]=modInv(f[i]);
     }
 }
  
