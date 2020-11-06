@@ -11,6 +11,8 @@ using namespace std;
 #define mkunique(a) a.resize(unique(a.begin(),a.end())-a.begin());
 const ll mod=1e9+7;
 
+vector<int> sa, lcp;
+
 void rsort(vector<int> &p, vector<int> &c){
     int n=p.size();
     vector<int> cnt(n);
@@ -26,7 +28,7 @@ void rsort(vector<int> &p, vector<int> &c){
     p=p_new;
 }
 
-vector<int> buildsa(string s){
+void buildsa(string &s){
     s+="$";
     int n=s.size();
     vector<pair<char,int>> a(n);
@@ -61,7 +63,39 @@ vector<int> buildsa(string s){
         c=c_new;
         k++;
     }
-    return p;
+    sa=p;
+    
+    lcp.assign(n,0);
+    k=0;
+    for(int i=0;i<n-1;i++){
+        int pi=c[i];
+        int j=p[pi-1];
+        while(s[i+k]==s[j+k]) k++;
+        lcp[pi]=k;
+        k=max(0,k-1);
+    }
+}
+
+ll counts(string &p, string &s){
+    ll k=p.size();
+    ll l=0, r=sa.size();
+    while(l<r){
+        ll mid=(l+r)/2;
+        if(p<s.substr(sa[mid],min(p.size(),s.size()-sa[mid])))
+            r=mid;
+        else
+            l=mid+1;
+    }
+    ll st=l;
+    l=0, r=sa.size();
+    while(l<r){
+        ll mid=(l+r)/2;
+        if(p<=s.substr(sa[mid],min(p.size(),s.size()-sa[mid])))
+            r=mid;
+        else
+            l=mid+1;
+    }
+    return st-l;
 }
 
 
@@ -75,10 +109,16 @@ int main() {
 
     string s;
     cin>>s;
-    vector<int> sa = buildsa(s);
-
-    for(ll i=0;i<sa.size();i++)
-        cout<<sa[i]<<" ";
+    ll n=s.size();
+    buildsa(s);
+    ll t;
+    cin>>t;
+    while(t--){
+        string p;
+        cin>>p;
+        ll r=counts(p,s);
+        cout<<r<<"\n";
+    }
 
 
 

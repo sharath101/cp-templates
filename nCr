@@ -34,6 +34,7 @@ ll C(ll n, ll r){
 
 void fact(){
     f[0]=1;
+    invf[0]=1;
     for(int i=1;i<N;i++){
         f[i]=(f[i-1]*i)%mod; 
         invf[i]=modInv(f[i]);

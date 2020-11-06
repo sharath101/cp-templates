@@ -37,7 +37,6 @@ vector<ll> getfact(int x){
     return ret; 
 } 
 
-int ch[MAXN];
 
 int main() {
     
