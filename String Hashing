@@ -19,7 +19,7 @@ void prepstring(string s){
     	hashs[i+1]=(hashs[i]*p+s[i])%MOD;
 }
 
-int getHash(int l,int r){
+int getHash(int l,int r){    //if u want [l,r] do getHash(l,r);
     return ((hashs[r+1]-(hashs[l]*pows[r-l+1])%MOD)+MOD)%MOD;
 }
 
