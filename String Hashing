@@ -4,45 +4,30 @@
 using namespace std;
 #define ll long long
 
-const ll N=2e5+5, MOD=1000000007;
-int p=331;
-ll hashs[N],pows[N];
+struct sthash{
+    vector<ll> hashs,pows;
+    ll p=331;
+    ll MOD=1e9+7;
+    sthash(string s){
+        ll n=s.size();
+        hashs.assign(n+1,0);
+        pows.assign(n+1,0);
+        pows[0]=1;
+        for(ll i=1;i<n;i++)
+            pows[i]=(pows[i-1]*p)%MOD;
+        for(ll i=0;i<n;i++)
+            hashs[i+1]=(hashs[i]*p+s[i])%MOD;
+    }
 
-void init(){
-	pows[0]=1;
-    for(int i=1;i<N;i++)
-        pows[i]=(pows[i-1]*p)%MOD;
-}
-
-void prepstring(string s){
-	for(int i=0;i<s.size();i++)
-    	hashs[i+1]=(hashs[i]*p+s[i])%MOD;
-}
-
-int getHash(int l,int r){    //if u want [l,r] do getHash(l,r);
-    return ((hashs[r+1]-(hashs[l]*pows[r-l+1])%MOD)+MOD)%MOD;
-}
+    ll gethash(ll l,ll r){    //if u want [l,r] do getHash(l,r);
+        return ((hashs[r+1]-(hashs[l]*pows[r-l+1])%MOD)+MOD)%MOD;
+    }
+};
 
 int main()
 {
-    init();
-    int t;
-    cin>>t;
-    while(t--)
-    {
-        string s;
-        cin>>s;
-        ll n=s.length();
-        prepstring(s);
-        int count=0;
-        for(int i=2;i<=n-2;i+=2){
-            ll l1=0,r1=i/2-1;     //T1
-            ll l2=r1+1,r2=i-1;    //T2
-            ll l3=i,r3=(i+n)/2-1; //T3
-            ll l4=r3+1,r4=n-1;    //T4
-            if(getHash(l1,r1)==getHash(l2,r2)&&getHash(l3,r3)==getHash(l4,r4))
-                count++;
-        }
-        cout<<count<<"\n";
-    }
+	string s;
+	cin>>s;
+    sthash h(s);
+    cout<<h.gethash(0,2);
 }
