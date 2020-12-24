@@ -6,8 +6,9 @@ typedef long long int ll;
 #define deb(x) cout<< #x << " " << x << "\n";
 const ll mod=1e9+7;
 
-vector<ll> a[10000];
-ll lca[200000][31],lev[200000];
+const int N=2e5+1;
+vector<ll> a[N];
+ll lca[2*N][31],lev[2*N];
 
 void dfs(ll v,ll lv,ll p=-1){
     lca[v][0]=p;
