@@ -19,6 +19,7 @@ template<int MX> struct tri {
     
     tri() {
         memset(trie,0,sizeof trie);
+        memset(sz,0,sizeof sz);
     }
     
     void insert(int x) {
