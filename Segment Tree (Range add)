@@ -13,17 +13,18 @@ const ll mod=1e9+7;
 
 const int N=3e5+1;
 
-//0 Indexed
+//0 Indexed point update and range add
 struct Node
 {
     long long val;
     Node(long long one = 0) : val(one) {}
     void merge(ll &l, ll r){
-        l = (l + r);
+        l = (l + r); 
     }
     Node lazylazyMerge(const Node &rhs){
         Node a = *this;
         //merge(a.val , rhs.val);
+        //a.val=rhs.val; //for range assign
         a.val = a.val + rhs.val;
         return a;
     }
@@ -31,7 +32,8 @@ struct Node
         Node a = *this;
         //merge(a.val , (r - l + 1) * (rhs.val));
         a.val = a.val + (r - l + 1) * rhs.val;
-        //a.val = a.val + rhs.val; //for max/min
+        //a.val = (r - l + 1) * rhs.val; //for range assign
+        //a.val = a.val + rhs.val; //for max/min. For min change default query return
         return a;
     }
     Node segSegMerge(const Node &rhs){

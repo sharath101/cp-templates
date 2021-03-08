@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
      
 using namespace std;
-     
+ 
+//1 indexed    
 const int maxn = 1e5, maxk = 1e6 + 1;
-int root[maxn], L[16 * maxn], R[16 * maxn], sum[16 * maxn];
+int root[16*maxn], L[16 * maxn], R[16 * maxn], sum[16 * maxn];
 int rt = 1, sz = 1;
 int lpos[maxk];
      
