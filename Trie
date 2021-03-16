@@ -44,7 +44,8 @@ template<int MX> struct tri {
         int cur = 0, z = 0;
         for(int i=30;i>=0;i--){
             int t = ((x&(1<<i))>>i);
-            if(!trie[cur][t] || !sz[trie[cur][t]]) t^=1;
+            if(!trie[cur][t] || !sz[trie[cur][t]]) //after inverting make sure trie[cur][t]!=0
+            	t^=1;
             cur = trie[cur][t];
             if(t) z^=(1ll<<i);
         }
