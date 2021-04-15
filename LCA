@@ -6,95 +6,82 @@ using namespace std;
 #define deb(x) cout<< #x << " " << x << "\n";
 #define MAX 9223372036854775807
 #define MIN -9223372036854775807
-#define PI 3.141592653589
 #define setbits(n) __builtin_popcountll(n)
 #define mkunique(a) a.resize(unique(a.begin(),a.end())-a.begin());
 const ll mod=1e9+7;
 
-const int N=2e5+10;
-vector<vector<int>> a(N);
+const int N=2e5+100;
+vector<ll> a[N];
 
-//Here it is an unweighted tree
-//If you want to solve for thath then
-//You have to go for Dist(a,b) = Dist(a) + Dist(b) - 2*Dist(lca(a,b))
-// where Dist(a) is distance from Root to a;
-struct LeastCommonAncestor
-{
-    vector<int> Level;
-    vector<vector<int>> dp;
-    vector<vector<int>> Adj;
-    int Log;
-    LeastCommonAncestor() {}
-    LeastCommonAncestor(vector<vector<int>> &Tree) : Adj(Tree)
-    {
-        int n = Tree.size();
-        Log = ceil(log2(n)) + 1;
-        dp.assign(Log, vector<int>(n));
-        Level.assign(n, 0);
-        dfs(0, 0, 0);
-        for (int i = 1; i < Log; ++i)
-            for (int j = 0; j < n; ++j)
-                dp[i][j] = dp[i - 1][dp[i - 1][j]];
+struct binlift{
+    vector<vector<ll>> lca;
+    vector<ll> lev;
+    ll Log;
+
+    binlift(ll n){
+        Log = ceil(log2(n))+1;
+        lca.assign(n, vector<ll>(Log,-1));
+        lev.assign(n,0);
+        dfs(0);
     }
-    void dfs(int node, int parent, int level)
-    {
-        dp[0][node] = parent;
-        Level[node] = level;
-        for (auto child : Adj[node])
-            if (child != parent)
-                dfs(child, node, level + 1);
+
+    void dfs(ll v, ll d=0, ll p=-1){
+        lca[v][0]=p;
+        lev[v]=d;
+        for(ll i=1;i<Log;i++)
+            if(lca[v][i-1]!=-1)
+                lca[v][i]=lca[lca[v][i-1]][i-1];
+        for(ll u:a[v]){
+            if(u==p) continue;
+            dfs(u,d+1,v);
+        }
     }
-    int lca(int a, int b)
-    {
-        if (Level[a] > Level[b])
-            swap(a, b);
-        int d = Level[b] - Level[a];
-        for (int i = 0; i < Log; ++i)
-            if (d & (1 << i))
-                b = dp[i][b];
-        if (a == b)
-            return a;
-        for (int i = Log - 1; i >= 0; --i)
-            if (dp[i][a] != dp[i][b])
-            {
-                a = dp[i][a];
-                b = dp[i][b];
-            }
-        return dp[0][a];
+
+    ll getlca(ll a,ll b){
+        if(lev[a]<lev[b]) swap(a,b);
+        for(ll i=Log-1;i>=0;i--){
+            if(lca[a][i]==-1 || lev[lca[a][i]]<lev[b]) continue;
+            a=lca[a][i];
+        }
+        if(a==b) return a;
+        for(ll i=Log-1;i>=0;i--)
+            if(lca[a][i]!=-1 && lca[a][i]!=lca[b][i])
+                a=lca[a][i],b=lca[b][i];
+        return lca[a][0];
     }
-    int dist(int a, int b)
-    {
-        return Level[a] + Level[b] - 2 * Level[lca(a, b)];
+
+    ll dist(ll a, ll b){
+        return lev[a] + lev[b] - 2*lev[getlca(a,b)];
     }
 };
 
 int main(){
-    
+
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     ll T=clock();
 
-    ll n,q;
-    cin>>n>>q;
-    for(ll i=0;i<n-1;i++){
-        ll u,v;
-        cin>>u>>v; u--,v--;
-        a[u].pb(v);
-        a[v].pb(u);
+    ll n;
+    cin>>n;
+    for(ll i=0;i<n;i++){
+        ll m; cin>>m;
+        for(ll j=0;j<m;j++){
+            ll r; cin>>r;
+            a[i].pb(r);
+            a[r].pb(i);
+        }
     }
-    LeastCommonAncestor lca(a);
+    binlift lc(n);
+    ll q;
+    cin>>q;
     while(q--){
-        ll u,v;
-        cin>>u>>v; u--,v--;
-        ll d=lca.dist(u,v)+1;
-        //cout<<d<<" ";
-        ll ans=n-d+d*(d+1)/2;
-        cout<<ans<<"\n";
+        ll a,b;
+        cin>>a>>b;
+        cout<<lc.getlca(a,b)<<"\n";
     }
-    
  
     cerr<<"\n\nTIME: "<<(double)(clock()-T)/CLOCKS_PER_SEC<<" sec\n";
     T = clock();
     return 0;
-}+
+}
