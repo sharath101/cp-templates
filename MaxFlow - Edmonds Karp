@@ -65,7 +65,8 @@ int main(){
     cin.tie(NULL);
     cout.tie(NULL);
     ll T=clock();
-
+	
+	//declare n if not in input
     cin>>n>>m;
     for(ll i=0;i<m;i++){
         ll u,v,c;
