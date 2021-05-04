@@ -1,0 +1,73 @@
+//https://www.spoj.com/problems/PON/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+#define ff first
+#define ss second
+#define pb push_back
+#define mp make_pair
+#define deb(x) cout<< #x << " " << x << "\n";
+#define MAX 9223372036854775807
+#define MIN -9223372036854775807
+#define setbits(n) __builtin_popcountll(n)
+#define mkunique(a) a.resize(unique(a.begin(),a.end())-a.begin()); //need to sort
+#define print(s) for(ll u: s) cout<<u<<" "; cout<<"\n";
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+const ll mod=1e9+7;
+
+ll modmul(ll a, ll b, ll mod){
+    ll x=0, y=a%mod;
+    while(b){
+        if(b%2) x=(x+y)%mod;
+        y=y*2%mod;
+        b/=2;
+    }
+    return x%mod;
+}
+
+ll mpow(ll x, ll y, ll mod){
+    x%=mod;
+    ll ans=1;
+    while(y){
+        if(y%2) ans=modmul(ans,x,mod);
+        x=modmul(x,x,mod);
+        y/=2;
+    }
+    return ans;
+}
+
+bool prime(ll n, ll iter=5){
+    if(n<4)
+        return n==2 || n==3;
+    for(ll i=0;i<iter;i++){
+        ll a = 2+rng()%(n-3);
+        if(mpow(a,n-1,n)!=1)
+            return false;
+    }
+    return true;
+}
+
+int main(){
+ 
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    ll TT=clock();
+
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        if(prime(n))
+            cout<<"YES\n";
+        else
+            cout<<"NO\n";
+    }
+
+ 
+    cerr<<"\n\nTIME: "<<(long double)(clock()-TT)/CLOCKS_PER_SEC<<" sec\n";
+    TT = clock();
+    return 0;
+}
