@@ -16,33 +16,43 @@ using namespace std;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 const ll mod=1e9+7;
 
-ll modmul(ll a, ll b, ll mod){
-    ll x=0, y=a%mod;
-    while(b){
-        if(b%2) x=(x+y)%mod;
-        y=y*2%mod;
-        b/=2;
+ll binpower(ll base, ll e, ll mod) {
+    ll result = 1;
+    base %= mod;
+    while (e) {
+        if (e & 1)
+            result = (__int128)result * base % mod;
+        base = (__int128)base * base % mod;
+        e >>= 1;
     }
-    return x%mod;
+    return result;
 }
 
-ll mpow(ll x, ll y, ll mod){
-    x%=mod;
-    ll ans=1;
-    while(y){
-        if(y%2) ans=modmul(ans,x,mod);
-        x=modmul(x,x,mod);
-        y/=2;
+bool check_composite(ll n, ll a, ll d, int s) {
+    ll x = binpower(a, d, n);
+    if (x == 1 || x == n - 1)
+        return false;
+    for (int r = 1; r < s; r++) {
+        x = (__int128)x * x % n;
+        if (x == n - 1)
+            return false;
     }
-    return ans;
-}
+    return true;
+};
 
-bool prime(ll n, ll iter=5){
-    if(n<4)
-        return n==2 || n==3;
-    for(ll i=0;i<iter;i++){
-        ll a = 2+rng()%(n-3);
-        if(mpow(a,n-1,n)!=1)
+bool MillerRabin(ll n) { // returns true if n is prime, else returns false.
+    if (n < 2)
+        return false;
+    int r = 0;
+    ll d = n - 1;
+    while ((d & 1) == 0){
+        d >>= 1;
+        r++;
+    }
+    for (int a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+        if (n == a)
+            return true;
+        if (check_composite(n, a, d, r))
             return false;
     }
     return true;
@@ -58,9 +68,9 @@ int main(){
     ll t;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        if(prime(n))
+        ll p;
+        cin>>p;
+        if(MillerRabin(p))
             cout<<"YES\n";
         else
             cout<<"NO\n";
