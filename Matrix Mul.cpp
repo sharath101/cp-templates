@@ -45,6 +45,9 @@ struct Matrix
                     tmp += (mat[i][k] * other.mat[k][j])%mod;
                     while(tmp >= mod)
                         tmp -= mod;
+                    //tmp += mat[i][k] * other.mat[k][j];
+                    //while(tmp >= mod*mod) 
+                    //    tmp -= mod*mod; //twice faster
                 }
                 result[i][j] = tmp % mod;
             }
@@ -58,7 +61,7 @@ struct Matrix
     }
 };
 
-Matrix pw(Matrix a,int p){
+Matrix pw(Matrix a, ll p){
     Matrix result = Matrix::identity_matrix(a.n_cols);
     while (p > 0) {
         if (p & 1)

@@ -7,19 +7,19 @@ using namespace std;
 #define INF 9223372036854775807
 #define PI 3.141592653589
 const int mod=998244353;
-                 /*   1 indexed   */
+
 const int N=2e5+1;
 vector<ll> a[N];
-vector<ll> order,pos(N); //Stores the Topological Order
+vector<ll> order, pos(N); //Stores the Topological Order
  
 bool topsort(ll n){ //Returns 1 if there exists a toposort, 0 if there is a cycle   
     order.clear();
     queue<ll> q;
-    vector<ll> indeg(n + 1, 0);
-    for(ll i = 1; i <= n; i++)
+    vector<ll> indeg(n, 0);
+    for(ll i = 0; i < n; i++)
         for(auto &it:a[i])
             indeg[it]++;
-    for(ll i = 1; i <= n; i++)
+    for(ll i = 0; i < n; i++)
         if(!indeg[i])
             q.push(i);
     ll idx = 0;

@@ -13,7 +13,6 @@ const ll mod=1e9+7;
 
 const int N=3e5+1;
 
-//0 Indexed point update and range add
 struct Node
 {
     long long val;

@@ -95,7 +95,7 @@ struct Dinic {
         }
         return f;
     }
-};
+};//remember, if u call flow twice diff ans
 
 int main(){
  

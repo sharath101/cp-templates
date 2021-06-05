@@ -12,19 +12,16 @@ using namespace std;
 const ll mod=998244353;
  
 const int NAX_PRIME = sqrt(1e15) + 5;
-bool is_composite[NAX_PRIME];
+bool comp[NAX_PRIME];
 vector<int> primes;
 
-void sieve(int n = NAX_PRIME)
-{
-    fill(is_composite, is_composite + n, false);
-    for (int i = 2; i < n; i++)
-    {
-        if (!is_composite[i])
+void sieve(int n = NAX_PRIME){
+    fill(comp, comp + n, false);
+    for (ll i = 2; i < n; i++){
+        if (!comp[i])
             primes.push_back(i);
-        for (size_t j = 0; j < primes.size() && ((ll)i * primes[j] < n); j++)
-        {
-            is_composite[i * primes[j]] = true;
+        for (ll j = 0; j < primes.size() && (i * primes[j] < n); j++){
+            comp[i * primes[j]] = true;
             if (i % primes[j] == 0)
                 break;
         }
