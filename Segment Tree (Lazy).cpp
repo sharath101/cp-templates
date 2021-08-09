@@ -22,16 +22,15 @@ struct Node
     }
     Node lazylazyMerge(const Node &rhs){
         Node a = *this;
-        //merge(a.val , rhs.val);
         //a.val=rhs.val; //range assign
         a.val = a.val + rhs.val; //range add
         return a;
     }
     Node seglazyMerge(const Node &rhs, const int &l, const int &r){
         Node a = *this;
-        //merge(a.val , (r - l + 1) * (rhs.val));
         a.val = a.val + (r - l + 1) * rhs.val; //range add
         //a.val = (r - l + 1) * rhs.val; //range assign
+        //a.val = rhs.val; //for max/min (range assign)
         //a.val = a.val + rhs.val; //for max/min (range add) (minchange default query return)
         return a;
     }
