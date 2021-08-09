@@ -72,9 +72,11 @@ int main(){
             a[r].pb(i);
         }
     }
+
     binlift lc(n);
     ll q;
     cin>>q;
+    
     while(q--){
         ll a,b;
         cin>>a>>b;
