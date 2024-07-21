@@ -10,12 +10,21 @@ using namespace std;
 #define setbits(n) __builtin_popcountll(n)
 const ll mod=1e9+7;
 
-#include <ext/pb_ds/assoc_container.hpp> 
-#include <ext/pb_ds/tree_policy.hpp> 
+//Importing libraries
+//common file for PBDS
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+//namespace
 using namespace __gnu_pbds;
-template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-//order_of_key (k) : Number of items strictly smaller than k.
-//find_by_order(k) : K-th element in a set (counting from zero).
+
+typedef tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+// pbds A 
+// A.insert(number)
+// A.remove(number)
+// *A.find_by_order(index) --> gives element at given index
+// A.order_of_key(number) --> gives count of elements smaller than number
+// *A.lower_bound(number) --> gives first element that is >= number
+// *A.upper_bound(number) --> gives first element that is > number
 
 int main() {
     
@@ -24,7 +33,7 @@ int main() {
     cout.tie(NULL);
     ll T=clock();
     
-    oset<ll> s;
+    pbds s;
     s.insert(1);
     s.insert(1);
     s.insert(2);
